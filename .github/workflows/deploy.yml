@@ -9,7 +9,7 @@ jobs:
   Deploy:
     runs-on: ubuntu-22.04
     steps:
-      - name: WAS host connection though bastion host
+      - name: WAS host connection though bastion host and pull from git-hub + restart WAS
         uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.BASTION_HOST_IP }}
@@ -19,6 +19,12 @@ jobs:
             cd /home/ubuntu/keys
             pwd
             ssh -i we_gift_ec2_key.pem ubuntu@10.0.1.4
-      - name: pull from git-hub and restart WAS
-        run: |
-          ls -al
+            cd ~
+            pwd
+            ls -al
+            cd server/Spring_ci-cd
+            git pull origin main
+            cd /home/ubuntu/server/Spring_ci-cd/build/libs
+            sudo fuser -k -n tcp 8080
+            chmod +x ./cicd_test-0.0.1-SNAPSHOT.jar
+            nohup java -jar *SNAPSHOT.jar > ./output.log 2>&1 &
