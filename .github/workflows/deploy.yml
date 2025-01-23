@@ -17,6 +17,7 @@ jobs:
           key: ${{ secrets.BASTION_HOST_KEY }}
           script: |
             cd /home/ubuntu/keys
+            pwd
             ssh -i we_gift_ec2_key.pem ubuntu@10.0.1.4
       - name: pull from git-hub and restart WAS
         run: |
