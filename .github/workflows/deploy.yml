@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
       - name: WAS host connection though bastion host
-        uses: appleboy/ssh-action@v1.0.3
+      - uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{secrets.BASTION_HOST_IP}}
           username: ${{secrets.BASTION_HOST_USERNAME}}
