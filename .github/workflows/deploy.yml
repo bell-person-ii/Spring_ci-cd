@@ -19,11 +19,10 @@ jobs:
             cd /home/ubuntu/keys
             ssh -i we_gift_ec2_key.pem ubuntu@10.0.1.4
 
-      
             cd /home/ubuntu/server/Spring_ci-cd
             git pull origin main
             cd /home/ubuntu/server/Spring_ci-cd/build/libs
-            sudo fuser -k-n tcp 8080
+            sudo fuser -k -n tcp 8080
             chmod +x ./cicd_test-0.0.1-SNAPSHOT.jar
             nohup java -jar *SNAPSHOT.jar > ./output.log 2>&1 &
 						
