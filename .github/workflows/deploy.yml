@@ -10,15 +10,12 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
       - name: WAS host connection though bastion host
-        uses: appleboy/ssh-action@v1.0.3
-        with:
-          host: ${{ secrets.BASTION_HOST_IP }}
-          username: ${{ secrets.BASTION_HOST_USERNAME }}
-          key: ${{ secrets.BASTION_HOST_KEY }}
-          script: |
-            cd /home/ubuntu/keys
-            pwd
-            ssh -i we_gift_ec2_key.pem ubuntu@10.0.1.4
+        run: |
+          ssh -i ${{ secrets.BASTION_HOST_KEY }} ${{ secrets.BASTION_HOST_USERNAME }}@${{ secrets.BASTION_HOST_IP }}
+          cd /home/ubuntu/keys
+          pwd
+          ssh -i we_gift_ec2_key.pem ubuntu@10.0.1.4
+
       - name: pull from git-hub and restart WAS
         run: |
           cd ~
