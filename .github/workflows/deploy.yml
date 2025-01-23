@@ -21,7 +21,6 @@ jobs:
       - name: pull from git-hub and restart WAS
         run: |
           cd ~
-          ls
           cd server/Spring_ci-cd
           git pull origin main
           cd /home/ubuntu/server/Spring_ci-cd/build/libs
