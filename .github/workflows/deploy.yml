@@ -15,5 +15,3 @@ jobs:
           host: ${{secrets.BASTION_HOST_IP}}
           username: ${{secrets.BASTION_HOST_USERNAME}}
           key: ${{secrets.BASTION_HOST_KEY}}
-						
-						
