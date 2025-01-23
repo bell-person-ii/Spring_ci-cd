@@ -15,7 +15,7 @@ jobs:
           host: ${{secrets.BASTION_HOST_IP}}
           username: ${{secrets.BASTION_HOST_USERNAME}}
           key: ${{secrets.BASTION_HOST_KEY}}
-          script: |
+          script:  |
             cd /home/ubuntu/keys
             ssh -i we_gift_ec2_key.pem ubuntu@10.0.1.4
 
