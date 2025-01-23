@@ -9,22 +9,27 @@ jobs:
   Deploy:
     runs-on: ubuntu-22.04
     steps:
-      - name: WAS host connection though bastion host
-        run: |
-          ssh -i ${{ secrets.BASTION_HOST_KEY }} ${{ secrets.BASTION_HOST_USERNAME }}@${{ secrets.BASTION_HOST_IP }}
-          cd /home/ubuntu/keys
-          pwd
-          ssh -i we_gift_ec2_key.pem ubuntu@10.0.1.4
+      - name: Checkout repository
+        uses: actions/checkout@v3
 
-      - name: pull from git-hub and restart WAS
+      - name: Set up SSH connection to Bastion Host
         run: |
-          cd ~
-          cd /home
-          pwd
-          ls -al
-          cd server/Spring_ci-cd
-          git pull origin main
-          cd /home/ubuntu/server/Spring_ci-cd/build/libs
-          sudo fuser -k -n tcp 8080
-          chmod +x ./cicd_test-0.0.1-SNAPSHOT.jar
-          nohup java -jar *SNAPSHOT.jar > ./output.log 2>&1 &
+          echo "${{ secrets.BASTION_HOST_KEY }}" > bastion_key.pem
+          chmod 600 bastion_key.pem
+          eval "$(ssh-agent -s)"
+          ssh-add bastion_key.pem
+        env:
+          SSH_AUTH_SOCK: /tmp/ssh_agent.sock
+
+      - name: Connect to WAS through Bastion Host and deploy
+        run: |
+          ssh -o StrictHostKeyChecking=no -J ${{ secrets.BASTION_HOST_USERNAME }}@${{ secrets.BASTION_HOST_IP }} -i bastion_key.pem ubuntu@10.0.1.4 << 'EOF'
+            cd /home/ubuntu/server/Spring_ci-cd
+            git pull origin main
+
+            # Navigate to build directory and restart application
+            cd build/libs
+            sudo fuser -k -n tcp 8080
+            chmod +x ./cicd_test-0.0.1-SNAPSHOT.jar
+            nohup java -jar cicd_test-0.0.1-SNAPSHOT.jar > ./output.log 2>&1 &
+          EOF
