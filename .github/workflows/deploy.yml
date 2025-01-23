@@ -21,6 +21,7 @@ jobs:
       - name: pull from git-hub and restart WAS
         run: |
           cd ~
+          cd /home/ubuntu
           pwd
           ls -al
           cd server/Spring_ci-cd
