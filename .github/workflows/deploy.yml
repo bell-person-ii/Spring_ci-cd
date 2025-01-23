@@ -18,4 +18,4 @@ jobs:
           script_stop: true
           script: |
             cd /home/ubuntu/keys
-            ssh -i we_gift_ec2_key.pem ubuntu@10.0.1.4
+            ssh -t -i we_gift_ec2_key.pem ubuntu@10.0.1.4
