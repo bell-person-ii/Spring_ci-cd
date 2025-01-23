@@ -20,7 +20,8 @@ jobs:
             ssh -i we_gift_ec2_key.pem ubuntu@10.0.1.4
       - name: pull from git-hub and restart WAS
         run: |
-          cd /home/ubuntu/server/Spring_ci-cd
+          cd ~
+          cd server/Spring_ci-cd
           git pull origin main
           cd /home/ubuntu/server/Spring_ci-cd/build/libs
           sudo fuser -k -n tcp 8080
