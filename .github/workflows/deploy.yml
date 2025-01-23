@@ -33,6 +33,7 @@ jobs:
               git pull origin main
             
               # 빌드 실행
+              echo '빌드 실행'
               ./gradlew clean build
               
               # 빌드 산출물 위치로 이동
