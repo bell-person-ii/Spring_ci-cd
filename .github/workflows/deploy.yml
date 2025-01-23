@@ -31,7 +31,10 @@ jobs:
 
               echo 'Git Pull 시작'
               git pull origin main
-
+            
+              # 빌드 실행
+              ./gradlew clean build
+              
               # 빌드 산출물 위치로 이동
               cd /home/ubuntu/server/Spring_ci-cd/build/libs
 
@@ -39,10 +42,10 @@ jobs:
               sudo fuser -k -n tcp 8080
 
               echo 'JAR 실행권한 부여'
-              chmod +x ./cicd_test-0.0.1-SNAPSHOT.jar
+              chmod +x ./*SNAPSHOT.jar
 
               echo '새로운 JAR 구동'
-              nohup java -jar ./cicd_test-0.0.1-SNAPSHOT.jar > ./output.log 2>&1 &
+              nohup java -jar ./*SNAPSHOT.jar > ./output.log 2>&1 &
 
               echo '배포 완료'
             "
