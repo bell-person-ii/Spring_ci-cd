@@ -32,6 +32,10 @@ jobs:
               echo 'Git Pull 시작'
               git pull origin main
             
+              # ---- (1) secrets.WAS_YML 값을 application.yml로 치환 ----
+              echo 'application.yml 덮어씌우기'
+              cat <<EOF > /home/ubuntu/server/Spring_ci-cd/src/main/resources/application.yml ${{ secrets.WAS_YML }} EOF
+            
               # 빌드 실행
               echo '빌드 실행'
               ./gradlew clean build
