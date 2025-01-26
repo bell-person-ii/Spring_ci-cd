@@ -24,16 +24,19 @@ jobs:
                 -i /home/ubuntu/keys/we_gift_ec2_key.pem \
                 ubuntu@10.0.1.4 <<EOS
               echo "[서버] 현재 위치:" $(pwd)
+              echo "[서버] 기존 프로젝트 삭제"
+              rm -rf /home/ubuntu/server/Spring_ci-cd
+
+              echo "[서버] Git 클론 시작"
+              git clone https://github.com/bell-person-ii/Spring_ci-cd.git /home/ubuntu/server/Spring_ci-cd
               cd /home/ubuntu/server/Spring_ci-cd
-              echo "[서버] Git Pull 시작"
-              git pull origin main
 
               echo "[서버] application.yml 덮어쓰기"
-              echo "${{ secrets.WAS_YML }}" > /home/ubuntu/server/Spring_ci-cd/src/main/resources/application.yml
+              echo "${{ secrets.WAS_YML }}" > src/main/resources/application.yml
 
               echo "[서버] 빌드 실행"
               ./gradlew clean build
-              cd /home/ubuntu/server/Spring_ci-cd/build/libs
+              cd build/libs
               echo "[서버] 8080 포트 사용 프로세스 종료"
               sudo fuser -k -n tcp 8080
 
