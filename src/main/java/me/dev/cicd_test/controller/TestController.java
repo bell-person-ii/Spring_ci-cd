@@ -22,7 +22,6 @@ public class TestController {
 
     @GetMapping("/user/{id}")
     public ResponseEntity<User> findProcess(@PathVariable("id") Long id){
-
         try {
             User user = userService.findUser(id);
             return ResponseEntity.status(HttpStatus.OK).body(user);
